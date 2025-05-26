@@ -1,7 +1,9 @@
 // IMPORTS
 
+import { useState } from "react";
+
 export default function App() {
-  const listItems = [
+  const [listItems, setListItems] = useState([
     {
       id: 1,
       title: "La tecnologia del futuro",
@@ -27,7 +29,21 @@ export default function App() {
       title: "Finanza personale facile",
       content: "Consigli pratici per risparmiare e investire meglio.",
     },
-  ];
+  ]);
+
+  const [inputForm, setInputForm] = useState("");
+
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+
+    const newListItems = [...listItems];
+
+    newListItems.push({ title: inputForm });
+
+    setListItems(newListItems);
+
+    setInputForm("");
+  };
 
   return (
     <div className="container">
@@ -36,6 +52,16 @@ export default function App() {
           return <li key={index}>{item.title}</li>;
         })}
       </ul>
+
+      <form onSubmit={handleSubmitForm} className="d-flex gap-1">
+        <input
+          value={inputForm}
+          onChange={(e) => setInputForm(e.target.value)}
+          className="form-control grow-1"
+          type="text"
+        />
+        <button className="btn btn-secondary">ADD</button>
+      </form>
     </div>
   );
 }
